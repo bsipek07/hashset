@@ -20,7 +20,7 @@ public class EvidencijaPolaznika {
         List<Polaznici> polazniciLista = new ArrayList<>(polazniciSet);
 
 
-       polazniciLista.sort((p1,p2) -> p1.getPrezime().compareToIgnoreCase(p2.getPrezime()));
+       polazniciLista.sort((a,b) -> a.getPrezime().compareToIgnoreCase(b.getPrezime()));
 
 
 
