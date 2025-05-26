@@ -11,16 +11,16 @@ public class EvidencijaPolaznika {
         Polaznici p3 = new Polaznici("Ivic","ivanivic@gmail.com","Ivan");
         Polaznici p4 = new Polaznici("Anic","anaanic@gmail.com","Ana");
 
-        boolean dodano = polazniciSet.add(p1); // true
-        dodano = polazniciSet.add(p2);
-        dodano = polazniciSet.add(p3);
-        dodano = polazniciSet.add(p4);
+        polazniciSet.add(p1);
+        polazniciSet.add(p2);
+        polazniciSet.add(p3);
+        polazniciSet.add(p4);
 
-        // 1. Pretvori HashSet u Listu
+
         List<Polaznici> polazniciLista = new ArrayList<>(polazniciSet);
 
-// 2. Sortiraj po prezimenu uzlazno (ascending)
-        polazniciLista.sort((p1, p2) -> p1.getPrezime().compareToIgnoreCase(p2.getPrezime()));
+
+       polazniciLista.sort((p1,p2) -> p1.getPrezime().compareToIgnoreCase(p2.getPrezime()));
 
 
 
