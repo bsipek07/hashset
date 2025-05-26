@@ -1,38 +1,37 @@
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import java.util.TreeSet;
 
 public class EvidencijaPolaznika {
 
-    public static void main(String[] args){
-        HashSet<Polaznici> polazniciSet = new HashSet<>();
-        Polaznici p1 = new Polaznici("Markic","marko.markic@gmail.com","Marko");
-        Polaznici p2 = new Polaznici("Ivic","ivanivic@gmail.com","Ivan");
-        Polaznici p3 = new Polaznici("Ivic","ivanivic@gmail.com","Ivan");
-        Polaznici p4 = new Polaznici("Anic","anaanic@gmail.com","Ana");
+    public static void main(String[] args) {
+        TreeSet<Polaznici> polazniciSet = new TreeSet<>(); // koristi Comparable
 
-        polazniciSet.add(p1);
-        polazniciSet.add(p2);
-        polazniciSet.add(p3);
-        polazniciSet.add(p4);
+        try {
+            dodajPolaznika(polazniciSet, new Polaznici("Markic", "marko.markic@gmail.com", "Marko"));
+          //  dodajPolaznika(polazniciSet, new Polaznici("Ivic", "ivanivic@gmail.com", "Ivan"));
+            dodajPolaznika(polazniciSet, new Polaznici("Ivic", "ivanivic@gmail.com", "Ivan")); // duplikat emaila
+            dodajPolaznika(polazniciSet, new Polaznici("Anic", "anaanic@gmail.com", "Ana"));
+        } catch (IllegalArgumentException e) {
+            System.out.println("Greška: " + e.getMessage());
+        }
 
-
-        List<Polaznici> polazniciLista = new ArrayList<>(polazniciSet);
-
-
-       polazniciLista.sort((a,b) -> a.getPrezime().compareToIgnoreCase(b.getPrezime()));
-
-
-
-        System.out.println("Jedinstveni polaznici:");
-        for (Polaznici p : polazniciLista) {
+        System.out.println("Jedinstveni polaznici sortirani po prezimenu:");
+        for (Polaznici p : polazniciSet) {
             System.out.println("Ime: " + p.getIme());
             System.out.println("Prezime: " + p.getPrezime());
             System.out.println("Email: " + p.getEmail());
             System.out.println("------------------------");
         }
+    }
 
-        System.out.println("Broj jedinstvenih polaznika: " + polazniciSet.size());
+    public static void dodajPolaznika(TreeSet<Polaznici> set, Polaznici novi) {
 
+        boolean postoji = set.stream()
+                .anyMatch(p -> p.getEmail().equalsIgnoreCase(novi.getEmail()));
+
+        if (postoji) {
+            throw new IllegalArgumentException("Polaznik s emailom " + novi.getEmail() + " već postoji.");
+        }
+
+        set.add(novi);
     }
 }

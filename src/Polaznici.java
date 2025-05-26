@@ -1,4 +1,4 @@
-public class Polaznici {
+public class Polaznici implements Comparable<Polaznici> {
 
     private String ime;
     private String prezime;
@@ -52,4 +52,8 @@ public class Polaznici {
         return email != null ? email.hashCode() : 0;
     }
 
+    @Override
+    public int compareTo(Polaznici o) {
+        return this.prezime.compareToIgnoreCase(o.prezime);
+    }
 }
