@@ -1,21 +1,24 @@
-import java.util.TreeSet;
+import java.util.*;
 
 public class EvidencijaPolaznika {
 
     public static void main(String[] args) {
-        TreeSet<Polaznici> polazniciSet = new TreeSet<>(); // koristi Comparable
+        Map<String, Polaznici> polazniciMap = new HashMap<>();
 
         try {
-            dodajPolaznika(polazniciSet, new Polaznici("Markic", "marko.markic@gmail.com", "Marko"));
-          //  dodajPolaznika(polazniciSet, new Polaznici("Ivic", "ivanivic@gmail.com", "Ivan"));
-            dodajPolaznika(polazniciSet, new Polaznici("Ivic", "ivanivic@gmail.com", "Ivan")); // duplikat emaila
-            dodajPolaznika(polazniciSet, new Polaznici("Anic", "anaanic@gmail.com", "Ana"));
+            dodajPolaznika(polazniciMap, new Polaznici("Markic", "marko.markic@gmail.com", "Marko"));
+            dodajPolaznika(polazniciMap, new Polaznici("Ivic", "ivanivic@gmail.com", "Ivan"));
+            dodajPolaznika(polazniciMap, new Polaznici("Ivic", "ivanivic@gmail.com", "Ivan")); // duplikat
+            dodajPolaznika(polazniciMap, new Polaznici("Anic", "anaanic@gmail.com", "Ana"));
         } catch (IllegalArgumentException e) {
             System.out.println("Greška: " + e.getMessage());
         }
 
+        List<Polaznici> sortiraniPolaznici = new ArrayList<>(polazniciMap.values());
+        sortiraniPolaznici.sort(Comparator.comparing(Polaznici::getPrezime, String.CASE_INSENSITIVE_ORDER));
+
         System.out.println("Jedinstveni polaznici sortirani po prezimenu:");
-        for (Polaznici p : polazniciSet) {
+        for (Polaznici p : sortiraniPolaznici) {
             System.out.println("Ime: " + p.getIme());
             System.out.println("Prezime: " + p.getPrezime());
             System.out.println("Email: " + p.getEmail());
@@ -23,15 +26,10 @@ public class EvidencijaPolaznika {
         }
     }
 
-    public static void dodajPolaznika(TreeSet<Polaznici> set, Polaznici novi) {
-
-        boolean postoji = set.stream()
-                .anyMatch(p -> p.getEmail().equalsIgnoreCase(novi.getEmail()));
-
-        if (postoji) {
+    public static void dodajPolaznika(Map<String, Polaznici> mapa, Polaznici novi) {
+        if (mapa.containsKey(novi.getEmail().toLowerCase())) {
             throw new IllegalArgumentException("Polaznik s emailom " + novi.getEmail() + " već postoji.");
         }
-
-        set.add(novi);
+        mapa.put(novi.getEmail().toLowerCase(), novi);
     }
 }

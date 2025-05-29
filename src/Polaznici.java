@@ -1,4 +1,4 @@
-public class Polaznici implements Comparable<Polaznici> {
+public class Polaznici {
 
     private String ime;
     private String prezime;
@@ -37,23 +37,4 @@ public class Polaznici implements Comparable<Polaznici> {
         this.email = email;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null || getClass() != obj.getClass())
-            return false;
-        Polaznici polaznik = (Polaznici) obj;
-        return email != null && email.equals(polaznik.email);
-    }
-
-    @Override
-    public int hashCode() {
-        return email != null ? email.hashCode() : 0;
-    }
-
-    @Override
-    public int compareTo(Polaznici o) {
-        return this.prezime.compareToIgnoreCase(o.prezime);
-    }
 }
